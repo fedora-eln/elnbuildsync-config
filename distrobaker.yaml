@@ -65,6 +65,9 @@ configuration:
         - rubygem-rdoc
         # In RHEL rubygem-test-unit is a sub-package of ruby
         - rubygem-test-unit
+        # Rust cannot rebuild from the Fedora version due to incompatibility
+        # between the enabled build targets
+        - rust
         # shim has its own building proceedure
         - shim
         - shim-signed
