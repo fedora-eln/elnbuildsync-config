@@ -38,7 +38,7 @@ configuration:
     merge: false
     strict: true
     autopackagelist:
-        view: eln
+        view: [ eln, eln-extras ]
         content_resolver: https://tiny.distro.builders
     skip_tag:
       rpms:
