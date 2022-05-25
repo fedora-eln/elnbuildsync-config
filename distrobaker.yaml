@@ -48,6 +48,11 @@ configuration:
         # Rust cannot rebuild from the Fedora version due to incompatibility
         # between the enabled build targets
         - rust
+        # If other packages build against the Fedora LLVM, they will fail to
+        # run against the ELN LLVM due to missing symbols. Avoid allowing LLVM
+        # to tag the Fedora build into the buildroot.
+        - llvm
+
     exclude:
       rpms:
         # it takes too much infra resources to try kernel builds automatically
