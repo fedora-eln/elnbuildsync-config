@@ -96,3 +96,7 @@ configuration:
     cache:
       source: "%(component)s"
       destination: "%(component)s"
+components:
+  rpms:
+    restore:
+      source: dump.git
