@@ -60,6 +60,9 @@ configuration:
         - ^selinux-policy$
         # OCAML has special behavior and fedora builds cannot be mixed with ELN builds
         - ^ocaml.*
+        # redhat-rpm-config contains many fundamental macros and should not be
+        # put into the ELN buildroot
+        - ^redhat-rpm-config$
 
     exclude:
       rpms:
