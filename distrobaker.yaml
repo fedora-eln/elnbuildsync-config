@@ -98,6 +98,11 @@ configuration:
         - ^pesign$
         # shim has its own building procedure
         - ^shim.*
+        # In RHEL, Rust packages are built with vendored dependencies
+        - ^rust-cargo-c$
+        - ^rust-rav1e$
+        - ^rust-rpm-sequoia$
+        - ^rust-sevctl$
   defaults:
     rpms:
       source: "%(component)s.git#rawhide"
