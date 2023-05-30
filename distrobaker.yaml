@@ -98,6 +98,9 @@ configuration:
         - ^pesign$
         # shim has its own building procedure
         - ^shim.*
+        # texlive is manually maintained due to its complexity
+        - texlive
+        - texlive-base
         # In RHEL, Rust packages are built with vendored dependencies
         - ^rust-cargo-c$
         - ^rust-imagequant-sys$
