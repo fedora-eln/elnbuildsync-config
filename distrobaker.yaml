@@ -109,6 +109,8 @@ configuration:
         - ^rust-rav1e$
         - ^rust-rpm-sequoia$
         - ^rust-sevctl$
+        # Both netcat and nmap-ncat provide /usr/bin/nc; RHEL uses the latter
+        - ^netcat$
   defaults:
     rpms:
       source: "%(component)s.git#rawhide"
