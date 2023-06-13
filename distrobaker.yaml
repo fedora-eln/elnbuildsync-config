@@ -67,6 +67,8 @@ configuration:
         # as a result are not fully binary-compatible with Fedora
         - gtk3
         - gtk4
+        # The Fedora builds include a kde (kwallet) subpackage which pulls in Qt5/KF5
+        - ^subversion$
 
     exclude:
       rpms:
