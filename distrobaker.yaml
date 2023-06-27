@@ -128,5 +128,9 @@ configuration:
       destination: "%(component)s"
 components:
   rpms:
+    ipa:
+      source: freeipa.git
     restore:
       source: dump.git
+    rhel-system-roles:
+      source: linux-system-roles.git
