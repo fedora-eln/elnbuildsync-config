@@ -123,6 +123,9 @@ configuration:
         - ^java-.*-openjdk-portable$
         # RHEL build is client-only, being maintained in ELN branch
         - ^ceph$
+        # Maintained in the ELN branch
+        # https://issues.redhat.com/browse/CS-1661
+        - ^qemu$
   defaults:
     rpms:
       source: "%(component)s.git#rawhide"
