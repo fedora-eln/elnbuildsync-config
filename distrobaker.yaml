@@ -146,6 +146,7 @@ configuration:
         - maven-assembly-plugin
         - maven-shade-plugin
         - mojo-parent
+        - msv
   defaults:
     rpms:
       source: "%(component)s.git#rawhide"
