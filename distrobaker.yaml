@@ -129,25 +129,6 @@ configuration:
         # Maintained in the ELN branch
         # https://issues.redhat.com/browse/CS-1661
         - ^qemu$
-        # Each of these packages has a git commit that fails `git-fsck` and
-        # cannot be imported to CentOS Stream 10 directly
-        - antlr
-        - apache-commons-cli
-        - apache-commons-codec
-        - apache-commons-exec
-        - apache-commons-io
-        - apache-commons-parent
-        - beust-jcommander
-        - bsf
-        - jdom
-        - jsch
-        - log4j
-        - maven-antrun-plugin
-        - maven-archiver
-        - maven-assembly-plugin
-        - maven-shade-plugin
-        - mojo-parent
-        - msv
     ordering:
       # Default ordering value is 1000 if not listed here
       rpms:
