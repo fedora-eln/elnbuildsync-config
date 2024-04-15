@@ -88,19 +88,15 @@ configuration:
         - ^kernel-tools$
         # crypto-policies is manually synced from CentOS Stream
         - ^crypto-policies$
-        # In RHEL rubygems is a sub-package of ruby
+        # In RHEL these are all sub-packages of ruby
         - ^rubygems$
-        # In RHEL rubygem-json is a sub-package of ruby
+        - ^rubygem-bundler$
         - ^rubygem-json$
-        # In RHEL rubygem-minitest is a sub-package of ruby
         - ^rubygem-minitest$
-        # In RHEL rubygem-power_assert is a sub-package of ruby
         - ^rubygem-power_assert$
-        # In RHEL rubygem-rake is a sub-package of ruby
+        - ^rubygem-racc$
         - ^rubygem-rake$
-        # In RHEL rubygem-rdoc is a sub-package of ruby
         - ^rubygem-rdoc$
-        # In RHEL rubygem-test-unit is a sub-package of ruby
         - ^rubygem-test-unit$
         # DistroBuildSync doesn't have permissions for secureboot packages
         - ^grub2$
