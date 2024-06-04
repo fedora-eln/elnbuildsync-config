@@ -38,6 +38,12 @@ configuration:
     merge: false
     pause: false
     strict: true
+    db:
+      host: psql1.stream.rdu2.redhat.com
+      port: 5432
+      name: elnbuildsync
+      driver: postgresql+asyncpg
+      user: elnbuildsync
     autopackagelist:
         view: [ eln, eln-extras ]
         content_resolver: https://tiny.distro.builders
