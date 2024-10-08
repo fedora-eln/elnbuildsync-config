@@ -145,6 +145,8 @@ configuration:
         # This is a special build of libxcrypt that includes a -compat subpackage
         # it is built for ELN directly
         - libxcrypt-epel
+        # RHEL changes are being maintained in ELN branch
+        - ^linux-system-roles$
     ordering:
       # Default ordering value is 1000 if not listed here
       rpms:
