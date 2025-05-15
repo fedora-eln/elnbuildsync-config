@@ -119,8 +119,11 @@ configuration:
         - texlive-base
         # In RHEL, Rust packages are built with vendored dependencies
         # These packages keep the vendoring changes in ELN branch
+        - ^corrosion$
         - ^maturin$
         - ^python-rpds-py$
+        - ^rust-bindgen-cli$
+        - ^rust-gst-plugin-gtk4$
         - ^rust-rpm-sequoia$
         - ^rust-sequoia-sq$
         - ^rust-sequoia-sqv$
