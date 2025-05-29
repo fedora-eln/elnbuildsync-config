@@ -94,8 +94,6 @@ configuration:
 
     exclude:
       rpms:
-        # it takes too much infra resources to try kernel builds automatically
-        - ^kernel$
         # In RHEL kernel-headers is a sub-package of kernel
         - ^kernel-headers$
         # In RHEL kernel-tools is a sub-package of kernel
