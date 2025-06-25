@@ -148,6 +148,36 @@ configuration:
         - ^linux-system-roles$
         # ELN branch: https://issues.redhat.com/browse/CS-2755
         - ^open-vm-tools$
+        # ELN placeholders
+        - ansible-collection-redhat-rhel_mgmt
+        - bfscripts
+        - command-line-assistant
+        - container-tools
+        - insights-client
+        - kpatch
+        - libguestfs-fssupport
+        - libguestfs-winsupport
+        - mingw-qemu-ga-win
+        - mlxbf-bootctl
+        - mpitests
+        - openssl-fips-provider
+        - opentelemetry-collector
+        - opentelemetry-collector-cloudwatch-config
+        - redhat-bookmarks
+        - redhat-cloud-client-configuration
+        - redhat-indexhtml
+        - redhat-logos
+        - redhat-release
+        - resource-agents-sap
+        - resource-agents-sap-hana
+        - resource-agents-sap-hana-scaleout
+        - rhc
+        - rhc-worker-playbook
+        - rhel-system-roles-sap
+        - sap-cluster-connector
+        - sap-hana-ha
+        - scap-security-guide
+        - virtio-win
     ordering:
       # Default ordering value is 1000 if not listed here
       rpms:
