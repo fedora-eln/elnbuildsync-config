@@ -91,6 +91,8 @@ configuration:
         - ^libguestfs$
         # The source of /etc/dnf/dnf.conf differs between Fedora and ELN.
         - ^dnf$
+        # gnutls-fips hardcodes the exact NVR of nettle against which it is built
+        - ^nettle$
 
     exclude:
       rpms:
@@ -189,6 +191,7 @@ configuration:
         ^ocaml$: 1
         ^llvm[0-9\.]*$: 0
         ^clang[0-9\.]*$: 1
+        ^nettle$: 500
   defaults:
     rpms:
       source: "%(component)s.git#rawhide"
