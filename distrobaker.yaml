@@ -150,6 +150,9 @@ configuration:
         - ^linux-system-roles$
         # ELN branch: https://issues.redhat.com/browse/CS-2755
         - ^open-vm-tools$
+        # Bundled dependencies, maintained in ELN branch
+        - fence-agents
+        - pcs
         # ELN placeholders
         - ansible-collection-redhat-rhel_mgmt
         - bfscripts
