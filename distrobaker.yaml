@@ -38,6 +38,7 @@ configuration:
     merge: false
     pause: false
     strict: true
+    update_batch_size: 750
     db:
       host: psql1.stream.rdu2.redhat.com
       port: 5432
