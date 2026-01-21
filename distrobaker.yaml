@@ -154,6 +154,8 @@ configuration:
         # Bundled dependencies, maintained in ELN branch
         - fence-agents
         - pcs
+        # Build takes over 24h on ELN
+        - rocserver
         # ELN placeholders
         - ansible-collection-redhat-rhel_mgmt
         - bfscripts
