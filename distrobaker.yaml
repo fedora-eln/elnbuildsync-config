@@ -116,8 +116,8 @@ configuration:
         # shim has its own building procedure
         - ^shim.*
         # texlive is manually maintained due to its complexity
-        - texlive
-        - texlive-base
+        - ^texlive$
+        - ^texlive-base$
         # In RHEL, Rust packages are built with vendored dependencies
         # These packages keep the vendoring changes in ELN branch
         - ^corrosion$
@@ -144,45 +144,45 @@ configuration:
         - ^qemu$
         # This is a special build of libxcrypt that includes a -compat subpackage
         # it is built for ELN directly
-        - libxcrypt-epel
+        - ^libxcrypt-epel$
         # RHEL changes are being maintained in ELN branch
         - ^linux-system-roles$
         # ELN branch: https://issues.redhat.com/browse/CS-2755
         - ^open-vm-tools$
         # Bundled dependencies, maintained in ELN branch
-        - fence-agents
-        - pcs
+        - ^fence-agents$
+        - ^pcs$
         # Build takes over 24h on ELN
-        - rocsolver
+        - ^rocsolver$
         # ELN placeholders
-        - command-line-assistant
-        - container-tools
-        - fips-provider-next
-        - flatpak-runtime-config
-        - insights-client
-        - insights-core
-        - kpatch
-        - libguestfs-fssupport
-        - libguestfs-winsupport
-        - mingw-qemu-ga-win
-        - openssl-fips-provider
-        - opentelemetry-collector
-        - redhat-bookmarks
-        - redhat-cloud-client-configuration
-        - redhat-indexhtml
-        - redhat-logos
-        - redhat-release
-        - resource-agents-sap
-        - resource-agents-sap-hana
-        - resource-agents-sap-hana-scaleout
-        - rhc
-        - rhc-playbook-verifier
-        - rhc-worker-playbook
-        - rhel-system-roles-sap
-        - sap-cluster-connector
-        - sap-hana-ha
-        - scap-security-guide
-        - virtio-win
+        - ^command-line-assistant$
+        - ^container-tools$
+        - ^fips-provider-next$
+        - ^flatpak-runtime-config$
+        - ^insights-client$
+        - ^insights-core$
+        - ^kpatch$
+        - ^libguestfs-fssupport$
+        - ^libguestfs-winsupport$
+        - ^mingw-qemu-ga-win$
+        - ^openssl-fips-provider$
+        - ^opentelemetry-collector$
+        - ^redhat-bookmarks$
+        - ^redhat-cloud-client-configuration$
+        - ^redhat-indexhtml$
+        - ^redhat-logos$
+        - ^redhat-release$
+        - ^resource-agents-sap$
+        - ^resource-agents-sap-hana$
+        - ^resource-agents-sap-hana-scaleout$
+        - ^rhc$
+        - ^rhc-playbook-verifier$
+        - ^rhc-worker-playbook$
+        - ^rhel-system-roles-sap$
+        - ^sap-cluster-connector$
+        - ^sap-hana-ha$
+        - ^scap-security-guide$
+        - ^virtio-win$
     ordering:
       # Default ordering value is 1000 if not listed here
       rpms:
