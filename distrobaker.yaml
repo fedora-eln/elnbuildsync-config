@@ -16,7 +16,7 @@ configuration:
     profile: koji
     mbs: https://mbs.fedoraproject.org
   trigger:
-    rpms: f44
+    rpms: f45
     modules: f10-modular
   build:
     prefix: git+https://src.fedoraproject.org
