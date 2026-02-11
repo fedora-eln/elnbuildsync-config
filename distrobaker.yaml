@@ -118,6 +118,7 @@ configuration:
         # texlive is manually maintained due to its complexity
         - ^texlive$
         - ^texlive-base$
+        - ^texlive-collection-.*
         # In RHEL, Rust packages are built with vendored dependencies
         # These packages keep the vendoring changes in ELN branch
         - ^corrosion$
