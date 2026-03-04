@@ -1,215 +1,178 @@
 configuration:
-  source:
-    scm: https://src.fedoraproject.org
-    cache:
-      url: https://src.fedoraproject.org/repo/pkgs
-      cgi: https://src.fedoraproject.org/repo/pkgs/upload.cgi
-      path: "%(name)s/%(filename)s/%(hashtype)s/%(hash)s/%(filename)s"
+  koji:
     profile: koji
-    mbs: https://mbs.fedoraproject.org
-  destination:
-    scm: https://src.fedoraproject.org
-    cache:
-      url: https://src.fedoraproject.org/repo/pkgs
-      cgi: https://src.fedoraproject.org/repo/pkgs/upload.cgi
-      path: "%(name)s/%(filename)s/%(hashtype)s/%(hash)s/%(filename)s"
-    profile: koji
-    mbs: https://mbs.fedoraproject.org
-  trigger:
-    rpms: f45
-    modules: f10-modular
-  build:
-    prefix: git+https://src.fedoraproject.org
-    target: eln
-    platform: platform:eln
-    scratch: false
+    trigger_tag: f45
+    build_target: eln
+    stable_tag: eln
+    scratch_build: false
     fail_fast: true
-  git:
-    author: DistroBaker
-    email: osci-list@redhat.com
-    message: |
-      Merged update from upstream sources
-
-      This is an automated DistroBaker update from upstream sources.
-      If you do not know what this is about or would like to opt out,
-      contact the OSCI team.
+  bodhi:
+    batch_size: 750
+  db:
+    host: psql1.stream.rdu2.redhat.com
+    port: 5432
+    name: elnbuildsync
+    driver: postgresql+asyncpg
+    user: elnbuildsync
+  # Set to false to disable /trigger authentication. Production may supply real OIDC via deployment.
+  open_id_connect: false
   control:
-    build: true
-    merge: false
-    pause: true
-    strict: true
-    update_batch_size: 750
-    db:
-      host: psql1.stream.rdu2.redhat.com
-      port: 5432
-      name: elnbuildsync
-      driver: postgresql+asyncpg
-      user: elnbuildsync
-    autopackagelist:
-        view: [ eln, eln-extras ]
-        content_resolver: https://tiny.distro.builders
+    pause: false
+    status_interval: 600
     skip_tag:
-      rpms:
-        # This package defines the %{rhel} and %{eln} macros and we should not
-        # ever tag the Fedora version into ELN
-        - ^fedora-release$
-        # The Fedora and RHEL toolchains are configured differently
-        - ^binutils$
-        - ^gcc$
-        # Rust cannot rebuild from the Fedora version due to incompatibility
-        # between the enabled build targets
-        - ^rust$
-        # If other packages build against the Fedora LLVM, they will fail to
-        # run against the ELN LLVM due to missing symbols. Avoid allowing LLVM
-        # to tag the Fedora build into the buildroot.
-        - ^llvm[0-9\.]*$
-        - ^clang[0-9\.]*$
-        - ^compiler-rt$
-        - ^libclc$
-        - ^libomp$
-        - ^lld$
-        - ^lldb$
-        - ^spirv-llvm-translator$
-        # The selinux-policy package provides RPM macros that other packages
-        # use to set their minimum required policy (such as smartmon). This
-        # dependency includes the %dist tag, meaning we cannot tag the Fedora
-        # Rawhide version in, since it may break dependent packages built
-        # during the window between the tag and the rebuild.
-        - ^selinux-policy$
-        # OCAML has special behavior and fedora builds cannot be mixed with ELN builds
-        - ^ocaml.*
-        # redhat-rpm-config contains many fundamental macros and should not be
-        # put into the ELN buildroot
-        - ^redhat-rpm-config$
-        # The GTK packages are built with different optional features in ELN and
-        # as a result are not fully binary-compatible with Fedora
-        - ^gtk3$
-        - ^gtk4$
-        # The Fedora builds include a kde (kwallet) subpackage which pulls in Qt5/KF5
-        - ^subversion$
-        # The Fedora builds use /usr/bin/qemu-kvm, where RHEL/ELN use /usr/libexec/qemu-kvm,
-        # which breaks the build of virt-v2v.  Also includes ocaml bindings.
-        - ^libguestfs$
-        # The source of /etc/dnf/dnf.conf differs between Fedora and ELN.
-        - ^dnf$
-        # gnutls-fips hardcodes the exact NVR of nettle against which it is built
-        - ^nettle$
+      # This package defines the %{rhel} and %{eln} macros and we should not
+      # ever tag the Fedora version into ELN
+      - ^fedora-release$
+      # The Fedora and RHEL toolchains are configured differently
+      - ^binutils$
+      - ^gcc$
+      # Rust cannot rebuild from the Fedora version due to incompatibility
+      # between the enabled build targets
+      - ^rust$
+      # If other packages build against the Fedora LLVM, they will fail to
+      # run against the ELN LLVM due to missing symbols. Avoid allowing LLVM
+      # to tag the Fedora build into the buildroot.
+      - ^llvm[0-9\.]*$
+      - ^clang[0-9\.]*$
+      - ^compiler-rt$
+      - ^libclc$
+      - ^libomp$
+      - ^lld$
+      - ^lldb$
+      - ^spirv-llvm-translator$
+      # The selinux-policy package provides RPM macros that other packages
+      # use to set their minimum required policy (such as smartmon). This
+      # dependency includes the %dist tag, meaning we cannot tag the Fedora
+      # Rawhide version in, since it may break dependent packages built
+      # during the window between the tag and the rebuild.
+      - ^selinux-policy$
+      # OCAML has special behavior and fedora builds cannot be mixed with ELN builds
+      - ^ocaml.*
+      # redhat-rpm-config contains many fundamental macros and should not be
+      # put into the ELN buildroot
+      - ^redhat-rpm-config$
+      # The GTK packages are built with different optional features in ELN and
+      # as a result are not fully binary-compatible with Fedora
+      - ^gtk3$
+      - ^gtk4$
+      # The Fedora builds include a kde (kwallet) subpackage which pulls in Qt5/KF5
+      - ^subversion$
+      # The Fedora builds use /usr/bin/qemu-kvm, where RHEL/ELN use /usr/libexec/qemu-kvm,
+      # which breaks the build of virt-v2v.  Also includes ocaml bindings.
+      - ^libguestfs$
+      # The source of /etc/dnf/dnf.conf differs between Fedora and ELN.
+      - ^dnf$
+      # gnutls-fips hardcodes the exact NVR of nettle against which it is built
+      - ^nettle$
 
     exclude:
-      rpms:
-        # In RHEL kernel-headers is a sub-package of kernel
-        - ^kernel-headers$
-        # In RHEL kernel-tools is a sub-package of kernel
-        - ^kernel-tools$
-        # crypto-policies is manually synced from CentOS Stream
-        - ^crypto-policies$
-        # In RHEL these are all sub-packages of ruby
-        - ^rubygems$
-        - ^rubygem-bundler$
-        - ^rubygem-json$
-        - ^rubygem-minitest$
-        - ^rubygem-power_assert$
-        - ^rubygem-racc$
-        - ^rubygem-rake$
-        - ^rubygem-rdoc$
-        - ^rubygem-test-unit$
-        # shim has its own building procedure
-        - ^shim.*
-        # texlive is manually maintained due to its complexity
-        - ^texlive$
-        - ^texlive-base$
-        - ^texlive-collection-.*
-        # In RHEL, Rust packages are built with vendored dependencies
-        # These packages keep the vendoring changes in ELN branch
-        - ^corrosion$
-        - ^maturin$
-        - ^python-rpds-py$
-        - ^rust-bindgen-cli$
-        - ^rust-gst-plugin-gtk4$
-        - ^rust-rpm-sequoia$
-        - ^rust-sequoia-sq$
-        - ^rust-sequoia-sqv$
-        - ^rust-sevctl$
-        - ^virtiofsd$
-        # RHEL-specific FIPS patches lag rawhide, being maintained in ELN branch
-        - ^golang$
-        # In RHEL golist is bundled, changes being maintained in ELN branch
-        - ^go-rpm-macros$
-        # These are built once for the oldest supported OS version and used for
-        # each OS version's openjdk package
-        - ^java-.*-openjdk-portable$
-        # RHEL build is client-only, being maintained in ELN branch
-        - ^ceph$
-        # Maintained in the ELN branch
-        # https://issues.redhat.com/browse/CS-1661
-        - ^qemu$
-        # This is a special build of libxcrypt that includes a -compat subpackage
-        # it is built for ELN directly
-        - ^libxcrypt-epel$
-        # RHEL changes are being maintained in ELN branch
-        - ^linux-system-roles$
-        # ELN branch: https://issues.redhat.com/browse/CS-2755
-        - ^open-vm-tools$
-        # Bundled dependencies, maintained in ELN branch
-        - ^fence-agents$
-        - ^pcs$
-        # Build takes over 24h on ELN
-        - ^rocsolver$
-        # ELN placeholders
-        - ^ansible-collection-redhat-leapp$
-        - ^command-line-assistant$
-        - ^container-tools$
-        - ^fips-provider-next$
-        - ^flatpak-runtime-config$
-        - ^insights-client$
-        - ^insights-core$
-        - ^kpatch$
-        - ^libguestfs-fssupport$
-        - ^libguestfs-winsupport$
-        - ^mingw-qemu-ga-win$
-        - ^openssl-fips-provider$
-        - ^opentelemetry-collector$
-        - ^redhat-bookmarks$
-        - ^redhat-cloud-client-configuration$
-        - ^redhat-indexhtml$
-        - ^redhat-logos$
-        - ^redhat-release$
-        - ^resource-agents-sap$
-        - ^resource-agents-sap-hana$
-        - ^resource-agents-sap-hana-scaleout$
-        - ^rhc$
-        - ^rhc-playbook-verifier$
-        - ^rhc-worker-playbook$
-        - ^rhel-system-roles-sap$
-        - ^sap-cluster-connector$
-        - ^sap-hana-ha$
-        - ^scap-security-guide$
-        - ^virtio-win$
+      # In RHEL kernel-headers is a sub-package of kernel
+      - ^kernel-headers$
+      # In RHEL kernel-tools is a sub-package of kernel
+      - ^kernel-tools$
+      # crypto-policies is manually synced from CentOS Stream
+      - ^crypto-policies$
+      # In RHEL these are all sub-packages of ruby
+      - ^rubygems$
+      - ^rubygem-bundler$
+      - ^rubygem-json$
+      - ^rubygem-minitest$
+      - ^rubygem-power_assert$
+      - ^rubygem-racc$
+      - ^rubygem-rake$
+      - ^rubygem-rdoc$
+      - ^rubygem-test-unit$
+      # shim has its own building procedure
+      - ^shim.*
+      # texlive is manually maintained due to its complexity
+      - ^texlive$
+      - ^texlive-base$
+      - ^texlive-collection-.*
+      # In RHEL, Rust packages are built with vendored dependencies
+      # These packages keep the vendoring changes in ELN branch
+      - ^corrosion$
+      - ^maturin$
+      - ^python-rpds-py$
+      - ^rust-bindgen-cli$
+      - ^rust-gst-plugin-gtk4$
+      - ^rust-rpm-sequoia$
+      - ^rust-sequoia-sq$
+      - ^rust-sequoia-sqv$
+      - ^rust-sevctl$
+      - ^virtiofsd$
+      # RHEL-specific FIPS patches lag rawhide, being maintained in ELN branch
+      - ^golang$
+      # In RHEL golist is bundled, changes being maintained in ELN branch
+      - ^go-rpm-macros$
+      # These are built once for the oldest supported OS version and used for
+      # each OS version's openjdk package
+      - ^java-.*-openjdk-portable$
+      # RHEL build is client-only, being maintained in ELN branch
+      - ^ceph$
+      # Maintained in the ELN branch
+      # https://issues.redhat.com/browse/CS-1661
+      - ^qemu$
+      # This is a special build of libxcrypt that includes a -compat subpackage
+      # it is built for ELN directly
+      - ^libxcrypt-epel$
+      # RHEL changes are being maintained in ELN branch
+      - ^linux-system-roles$
+      # ELN branch: https://issues.redhat.com/browse/CS-2755
+      - ^open-vm-tools$
+      # Bundled dependencies, maintained in ELN branch
+      - ^fence-agents$
+      - ^pcs$
+      # Build takes over 24h on ELN
+      - ^rocsolver$
+      # ELN placeholders
+      - ^ansible-collection-redhat-leapp$
+      - ^command-line-assistant$
+      - ^container-tools$
+      - ^fips-provider-next$
+      - ^flatpak-runtime-config$
+      - ^insights-client$
+      - ^insights-core$
+      - ^kpatch$
+      - ^libguestfs-fssupport$
+      - ^libguestfs-winsupport$
+      - ^mingw-qemu-ga-win$
+      - ^openssl-fips-provider$
+      - ^opentelemetry-collector$
+      - ^redhat-bookmarks$
+      - ^redhat-cloud-client-configuration$
+      - ^redhat-indexhtml$
+      - ^redhat-logos$
+      - ^redhat-release$
+      - ^resource-agents-sap$
+      - ^resource-agents-sap-hana$
+      - ^resource-agents-sap-hana-scaleout$
+      - ^rhc$
+      - ^rhc-playbook-verifier$
+      - ^rhc-worker-playbook$
+      - ^rhel-system-roles-sap$
+      - ^sap-cluster-connector$
+      - ^sap-hana-ha$
+      - ^scap-security-guide$
+      - ^virtio-win$
     ordering:
       # Default ordering value is 1000 if not listed here
-      rpms:
-        ^ocaml-srpm-macros$: 0
-        ^ocaml$: 1
-        ^llvm[0-9\.]*$: 0
-        ^clang[0-9\.]*$: 1
-        ^nettle$: 500
-  defaults:
-    rpms:
-      source: "%(component)s.git#rawhide"
-      destination: "%(component)s.git#rawhide"
-    modules:
-      source: "%(component)s.git#%(stream)s"
-      destination: "%(component)s.git#%(stream)s-rhel-9.0.0-beta"
-    cache:
-      source: "%(component)s"
-      destination: "%(component)s"
+      ^ocaml-srpm-macros$: 0
+      ^ocaml$: 1
+      ^llvm[0-9\.]*$: 0
+      ^clang[0-9\.]*$: 1
+      ^nettle$: 500
 components:
-  rpms:
+  autopackagelist:
+    view: [ eln, eln-extras ]
+    source: [ source, buildroot-source ]
+    content_resolver: https://tiny.distro.builders
+  overrides:
+    # Packages with different names in ELN than in Fedora
     ipa:
-      source: freeipa.git
+      upstream_name: freeipa
     ipa-healthcheck:
-      source: freeipa-healthcheck.git
+      upstream_name: freeipa-healthcheck
     restore:
-      source: dump.git
+      upstream_name: dump
     rhel-system-roles:
-      source: linux-system-roles.git
+      upstream_name: linux-system-roles
