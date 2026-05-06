@@ -67,6 +67,8 @@ configuration:
     exclude:
       # ELN has a separate fedora-eln-release package
       - ^fedora-release$
+      # Built by kernel team with bodhi update gating
+      - ^kernel$
       # In RHEL kernel-headers is a sub-package of kernel
       - ^kernel-headers$
       # In RHEL kernel-tools is a sub-package of kernel
