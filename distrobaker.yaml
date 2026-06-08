@@ -120,8 +120,6 @@ configuration:
       - ^libxcrypt-epel$
       # RHEL changes are being maintained in ELN branch
       - ^linux-system-roles$
-      # ELN branch: https://issues.redhat.com/browse/CS-2755
-      - ^open-vm-tools$
       # Bundled dependencies, maintained in ELN branch
       - ^fence-agents$
       - ^pcs$
