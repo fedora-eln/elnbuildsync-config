@@ -1,0 +1,102 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: ["**"]
+
+env:
+  # fedora-eln/elnbuildsync git ref: branch name, tag (e.g. 1.3.2), or commit SHA
+  ELNBUILDSYNC_REF: "1.3.2"
+
+jobs:
+  yaml-lint:
+    name: YAML Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out configuration
+        uses: actions/checkout@v6
+
+      - name: Install PyYAML
+        run: pip install pyyaml
+
+      - name: Validate YAML syntax and single document
+        run: |
+          python <<'EOF'
+          import glob
+          import sys
+
+          import yaml
+
+          errors = []
+          paths = sorted(set(glob.glob("*.yaml") + glob.glob("*.yml")))
+          if not paths:
+              print("No YAML files found in repository root.")
+              sys.exit(1)
+
+          for path in paths:
+              with open(path) as f:
+                  docs = list(yaml.safe_load_all(f))
+              if len(docs) != 1:
+                  errors.append(
+                      f"{path}: expected 1 YAML document, found {len(docs)}"
+                  )
+              elif docs[0] is None:
+                  errors.append(f"{path}: document is empty")
+
+          if errors:
+              print("\n".join(errors))
+              sys.exit(1)
+
+          print("YAML OK")
+          EOF
+
+  validate-config:
+    name: Validate Configuration
+    runs-on: ubuntu-latest
+    container: quay.io/fedora/fedora:latest
+    steps:
+      - name: Check out configuration
+        uses: actions/checkout@v6
+
+      - name: Check out elnbuildsync
+        uses: actions/checkout@v6
+        with:
+          repository: fedora-eln/elnbuildsync
+          ref: ${{ env.ELNBUILDSYNC_REF }}
+          path: elnbuildsync
+
+      - name: Install elnbuildsync
+        run: |
+          dnf install -y python3 python3-pip python3-devel gcc rpm-devel krb5-devel python3-gssapi python3-krb5 git-core
+          pip install -r elnbuildsync/requirements.txt
+          pip install -e elnbuildsync/
+
+      - name: Validate dynamic configuration
+        run: |
+          python <<'EOF'
+          import sys
+
+          from twisted.internet import defer, task
+
+          import elnbuildsync.config as config
+          from elnbuildsync.config import ConfigError, load_dynamic_config
+
+
+          async def validate(reactor):
+              await load_dynamic_config(
+                  dynamic_config_file="elnbuildsync_dynamic.yaml"
+              )
+              print(
+                  "Parsed OK: "
+                  f"trigger_tag={config.control['trigger_tag']}, "
+                  f"components={len(config.comps['downstream_components'])}"
+              )
+
+
+          try:
+              task.react(lambda reactor: defer.ensureDeferred(validate(reactor)))
+          except ConfigError as exc:
+              print(f"Configuration error: {exc}", file=sys.stderr)
+              sys.exit(1)
+          EOF
