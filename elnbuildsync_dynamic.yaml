@@ -1,6 +1,6 @@
 configuration:
   control:
-    pause: false
+    pause: true
     status_interval: 600
     trigger_tag: f45
     skip_tag:
