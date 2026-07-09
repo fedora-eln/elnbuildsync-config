@@ -111,7 +111,6 @@ configuration:
       - ^ansible-collection-redhat-leapp$
       - ^command-line-assistant$
       - ^container-tools$
-      - ^fips-provider-next$
       - ^flatpak-runtime-config$
       - ^insights-client$
       - ^insights-core$
@@ -153,6 +152,8 @@ components:
     content_resolver: https://tiny.distro.builders
   overrides:
     # Packages with different names in ELN than in Fedora
+    fips-provider-next:
+      upstream_name: fips-provider
     ipa:
       upstream_name: freeipa
     ipa-healthcheck:
