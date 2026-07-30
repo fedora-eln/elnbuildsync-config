@@ -118,6 +118,7 @@ configuration:
       - ^libguestfs-fssupport$
       - ^libguestfs-winsupport$
       - ^mingw-qemu-ga-win$
+      - ^osci-internal-test-package$
       - ^openssl-fips-provider$
       - ^opentelemetry-collector$
       - ^radii$
