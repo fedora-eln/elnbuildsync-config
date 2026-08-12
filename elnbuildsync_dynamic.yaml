@@ -1,8 +1,8 @@
 configuration:
   control:
-    pause: true
+    pause: false
     status_interval: 600
-    trigger_tag: f45
+    trigger_tag: f46
     skip_tag:
       # The Fedora and RHEL toolchains are configured differently
       - ^binutils$
