@@ -148,7 +148,7 @@ configuration:
       ^ipa$: 1001
 components:
   autopackagelist:
-    view: [ eln, eln-extras ]
+    view: [ eln, eln-extensions, eln-extras ]
     source: [ source, buildroot-source ]
     content_resolver: https://tiny.distro.builders
   overrides:
