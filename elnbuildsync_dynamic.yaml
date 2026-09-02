@@ -105,8 +105,6 @@ configuration:
       # Bundled dependencies, maintained in ELN branch
       - ^fence-agents$
       - ^pcs$
-      # Build takes over 24h on ELN
-      - ^rocsolver$
       # ELN placeholders
       - ^ansible-collection-redhat-leapp$
       - ^command-line-assistant$
