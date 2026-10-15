@@ -79,6 +79,7 @@ configuration:
       - ^maturin$
       - ^python-rpds-py$
       - ^rust-bindgen-cli$
+      - ^rust-cargo-c$
       - ^rust-gst-plugin-gtk4$
       - ^rust-rpm-sequoia$
       - ^rust-sequoia-sq$
