@@ -137,6 +137,8 @@ configuration:
       - ^sap-hana-ha$
       - ^scap-security-guide$
       - ^virtio-win$
+      # EPEL-specific package, maintained in ELN branch
+      - ^php-extras$
     ordering:
       # Default ordering value is 1000 if not listed here
       ^ocaml-srpm-macros$: 0
