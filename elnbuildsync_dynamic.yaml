@@ -139,6 +139,9 @@ configuration:
       - ^virtio-win$
       # EPEL-specific package, maintained in ELN branch
       - ^php-extras$
+      # temporary: 1.2.0+ added an unwanted dependency on vips
+      # remove once fixed, or after RHEL 11 branching
+      - ^appstream$
     ordering:
       # Default ordering value is 1000 if not listed here
       ^ocaml-srpm-macros$: 0
