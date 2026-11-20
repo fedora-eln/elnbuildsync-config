@@ -137,6 +137,11 @@ configuration:
       - ^sap-hana-ha$
       - ^scap-security-guide$
       - ^virtio-win$
+      # ELN Extensions placeholders
+      - ^dnf-plugin-nvidia$
+      - ^nvidia-modprobe$
+      - ^nvidia-persistenced$
+      - ^nvidia-settings$
       # EPEL-specific package, maintained in ELN branch
       - ^php-extras$
       # temporary: 1.2.0+ added an unwanted dependency on vips
